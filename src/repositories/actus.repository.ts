@@ -103,7 +103,6 @@ export const getSuggestions = async (id) => {
                 ]
             }
         ).skip(1).limit(3);
-        ;
         return suggestions;
     } catch (error) {
         throw error.toString()

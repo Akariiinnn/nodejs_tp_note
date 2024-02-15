@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as ActusService from '../services/actus.service';
+import {sendError, sendManuallyError, ServerError} from "../utils/error.utils";
 
 export const getActus = async (req: Request, res: Response) => {
     const filter = req.query.filter.toString();
@@ -9,7 +10,11 @@ export const getActus = async (req: Request, res: Response) => {
         const actus = await ActusService.getActus(filter, skip, limit);
         res.status(200).send(actus);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Get-All")
+        }
     }
 }
 
@@ -19,7 +24,11 @@ export const getActu = async (req: Request, res: Response) => {
         const actu = await ActusService.getActu(id);
         res.status(200).send(actu);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Get-One")
+        }
     }
 }
 
@@ -29,7 +38,11 @@ export const createActu = async (req: Request, res: Response) => {
         const newActu = await ActusService.createActu(actu);
         res.status(201).send(actu);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Create")
+        }
     }
 }
 
@@ -39,7 +52,11 @@ export const getSuggestions = async (req: Request, res: Response) => {
         const suggestions = await ActusService.getSuggestions(id);
         res.status(200).send(suggestions);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Suggestions")
+        }
     }
 }
 
@@ -51,7 +68,12 @@ export const updateActu = async (req: Request, res: Response) => {
         const updatedActu = await ActusService.updateActu(id, actu);
         res.status(200).send(updatedActu);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Update")
+
+        }
     }
 }
 
@@ -62,7 +84,11 @@ export const deleteActu = async (req: Request, res: Response) => {
         await ActusService.deleteActu(id);
         res.status(200).send(`Actu with id: ${id} got deleted successfully`);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Delete")
+        }
     }
 }
 
@@ -74,6 +100,10 @@ export const addComment = async (req: Request, res: Response) => {
         const newComment = await ActusService.addComment(id, comment, token);
         res.status(201).send(newComment);
     } catch (error) {
-        res.status(500).send(error);
+        if(error instanceof ServerError) {
+            sendError(res, error);
+        } else {
+            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Add-Comment")
+        }
     }
 }

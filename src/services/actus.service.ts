@@ -2,6 +2,7 @@ import * as ActusRepository from '../repositories/actus.repository';
 import * as jwtUtils from '../utils/jwt.utils';
 import { jwtConfig } from '../configs/jwt.config';
 import * as UserService from './user.service';
+import {ServerError, StatusCode} from "../utils/error.utils";
 
 
 export const addComment = async (id: string, comment: any, token) => {
@@ -39,7 +40,7 @@ export const updateActu = async (id: string, actu: any) => {
 export const getActus = async (filter, skip, limit) => {
     try {
         const actus = await ActusRepository.getActus(filter, skip, limit);
-        if(!actus) { throw new Error('No actus found') }
+        if(!actus) { throw new ServerError(StatusCode.NOT_FOUND, 'ERR-Actus-Not-Found', 'actus.error.notFound') }
         return actus;
     } catch (error) {
         throw error
@@ -50,7 +51,7 @@ export const getActu = async (id) => {
     try {
         const suggestions = await ActusRepository.getSuggestions(id);
         const actu = await ActusRepository.getActu(id);
-        if(!actu) { throw new Error('No actus found') }
+        if(!actu) { throw new ServerError(StatusCode.NOT_FOUND, 'ERR-Actu-Not-Found', 'actu.error.notFound')}
         return actu;
     } catch (error) {
         throw error

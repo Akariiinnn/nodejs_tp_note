@@ -14,6 +14,12 @@ export const verifyToken = (token: string, secret: string) => {
   return jwt.verify(token, secret);
 };
 
-export const hashPassword = async (password: string) => {
-  return await bcrypt.hash(password, 10);
+export const hashPassword = (password: string) => {
+  const saltRounds = 10;
+  const salt = bcrypt.genSalt(saltRounds);
+  return bcrypt.hashSync(password, saltRounds);
 };
+
+export const comparePassword = (password: string, hash: string) => {
+    return bcrypt.compareSync(password, hash);
+}

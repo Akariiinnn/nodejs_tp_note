@@ -14,6 +14,10 @@ export const ActusSchema = new mongoose.Schema(
             type: Date,
             default: Date.now
         },
+        modified_at: {
+            type: Date,
+            default: ""
+        },
         filters: {
             type: [String],
             required: true

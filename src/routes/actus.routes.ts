@@ -1,14 +1,15 @@
 import { Router } from 'express';
 import * as ActusController from '../controllers/actus.controller';
+import * as AuthMiddleware from '../middlewares/auth.middleware';
 
 const router = Router();
 
 router.get('/', ActusController.getActus);
-router.get('/filter', ActusController.getFilteredActus);
 router.get('/:id', ActusController.getActu);
 router.get('/suggestions/:id', ActusController.getSuggestions);
-router.post('/create', ActusController.createActu);
-//router.put('/:id', ActusController.updateActu);
-//router.delete('/:id', ActusController.deleteActu);
+router.post('/create', AuthMiddleware.checkRole("editor"), ActusController.createActu);
+router.put('/', AuthMiddleware.checkRole("editor"), ActusController.updateActu);
+router.delete('/:id', AuthMiddleware.checkRole("editor") , ActusController.deleteActu);
+router.put('/comment/:id', AuthMiddleware.checkRole("user"), ActusController.addComment);
 
 export default router;

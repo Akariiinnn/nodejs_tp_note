@@ -43,25 +43,37 @@ export const getSuggestions = async (req: Request, res: Response) => {
     }
 }
 
-/*
+
 export const updateActu = async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const id  = req.body.id;
     const actu = req.body;
     try {
         const updatedActu = await ActusService.updateActu(id, actu);
-        res.status(200).send(actu);
+        res.status(200).send(updatedActu);
     } catch (error) {
         res.status(500).send(error);
     }
 }
 
+
 export const deleteActu = async (req: Request, res: Response) => {
     const { id } = req.params;
     try {
         await ActusService.deleteActu(id);
-        res.status(204).send();
+        res.status(200).send(`Actu with id: ${id} got deleted successfully`);
     } catch (error) {
         res.status(500).send(error);
     }
 }
-*/
+
+export const addComment = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const comment = req.body;
+    const token = req.headers.authorization.replace('Bearer ', '');
+    try {
+        const newComment = await ActusService.addComment(id, comment, token);
+        res.status(201).send(newComment);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}

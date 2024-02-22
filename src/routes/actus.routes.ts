@@ -10,6 +10,5 @@ router.get('/suggestions/:id', ActusController.getSuggestions);
 router.post('/create', AuthMiddleware.checkRole("editor"), ActusController.createActu);
 router.put('/', AuthMiddleware.checkRole("editor"), ActusController.updateActu);
 router.delete('/:id', AuthMiddleware.checkRole("editor") , ActusController.deleteActu);
-router.put('/comment/:id', AuthMiddleware.checkRole("user"), ActusController.addComment);
 
 export default router;

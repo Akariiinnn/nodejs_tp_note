@@ -91,19 +91,3 @@ export const deleteActu = async (req: Request, res: Response) => {
         }
     }
 }
-
-export const addComment = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const comment = req.body;
-    const token = req.headers.authorization.replace('Bearer ', '');
-    try {
-        const newComment = await ActusService.addComment(id, comment, token);
-        res.status(201).send(newComment);
-    } catch (error) {
-        if(error instanceof ServerError) {
-            sendError(res, error);
-        } else {
-            sendManuallyError(res, 500, "actus.err.unhandled", "ERR-Actus-Add-Comment")
-        }
-    }
-}

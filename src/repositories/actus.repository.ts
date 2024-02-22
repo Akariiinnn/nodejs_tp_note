@@ -1,29 +1,6 @@
 import {ActusModel} from "../databases/models/actus.model";
 import {ServerError} from "../utils/error.utils";
 
-export const addComment = async (id: string, comment: any, user) => {
-    try {
-        console.log(comment.comment)
-        const newComments = await ActusModel.findByIdAndUpdate(
-            {_id: id},
-            {
-                $push: {
-                    comments: {
-                        user: user.email,
-                        content: comment.comment,
-                        created_at: Date.now()
-                    }
-                }
-            }
-        )
-        const newActu = await ActusModel.findById(id);
-        return newActu;
-    } catch (error) {
-        throw error.toString()
-    }
-}
-
-
 export const deleteActu = async (id: string) => {
     try {
         await ActusModel.findByIdAndDelete(id);
@@ -92,7 +69,6 @@ export const createActu = async (actus: any) => {
 export const getSuggestions = async (id) => {
     try {
         const actu = await ActusModel.findById(id)
-        console.log(actu.filters[0])
         const suggestions = await ActusModel.find(
             {
                 $or: [

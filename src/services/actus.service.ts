@@ -1,21 +1,5 @@
 import * as ActusRepository from '../repositories/actus.repository';
-import * as jwtUtils from '../utils/jwt.utils';
-import { jwtConfig } from '../configs/jwt.config';
-import * as UserService from './user.service';
 import {ServerError, StatusCode} from "../utils/error.utils";
-
-
-export const addComment = async (id: string, comment: any, token) => {
-    try {
-        const decodedToken: any = jwtUtils.verifyToken(token, jwtConfig.secret);
-        const user = await UserService.getUserByEmail(decodedToken.email)
-        const newComment = await ActusRepository.addComment(id, comment, user);
-        return newComment;
-    } catch (error) {
-        throw error
-    }
-};
-
 
 export const deleteActu = async (id: string) => {
     try {

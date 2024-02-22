@@ -15,6 +15,6 @@ mongoose.connect('mongodb+srv://akarin:m0S2ezFrazF5Traa@coursnodejs.cd0lzfn.mong
             console.log(`Server is running on port ${port}`)
         })
     })
-    .catch(() => {
-        console.log('mongo est pas co !')
+    .catch((error) => {
+        console.log('mongo est pas co !\n' + error)
     })

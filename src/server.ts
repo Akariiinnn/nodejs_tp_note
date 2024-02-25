@@ -8,7 +8,7 @@ const port = 3001;
 app.use(express.json());
 app.use('/api', routes);
 
-mongoose.connect('mongodb+srv://akarin:m0S2ezFrazF5Traa@coursnodejs.cd0lzfn.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://{{IP_MongoDB}}/?retryWrites=true&w=majority')
     .then(() => {
         console.log('mongodb est connecté')
         app.listen(port, () => {
